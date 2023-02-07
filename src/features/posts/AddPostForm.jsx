@@ -13,11 +13,7 @@ const AddPostForm = () => {
         if (title && content) {
             // Utilize postAdded action of postsSlice reducer
             dispatch(
-                postAdded({
-                    id: nanoid(),
-                    title,
-                    content,
-                })
+                postAdded(title, content)
             );
 
             // Clear Inputs

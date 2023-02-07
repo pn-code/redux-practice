@@ -1,7 +1,6 @@
 // HOW TO CREATE A SLICE
-
 // Step 1: import createSlice from redux toolkit
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, nanoid } from "@reduxjs/toolkit";
 
 // Step 2: create initialState
 const initialState = [
@@ -18,9 +17,22 @@ const postsSlice = createSlice({
     name: "posts",
     initialState,
     reducers: {
-        postAdded: (state, action) => {
-            // Payload references form data we will use later.
-            state.push(action.payload);
+        postAdded: {
+            // Provide Reducer
+            reducer(state, action) {
+                // Payload references form data we will use later.
+                state.push(action.payload);
+            },
+            // Provide prepare cb
+            prepare(title, content) {
+                return {
+                    payload: {
+                        id: nanoid(),
+                        title,
+                        content,
+                    },
+                };
+            },
         },
     },
 });
