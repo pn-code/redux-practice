@@ -1,8 +1,30 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { nanoid } from "@reduxjs/toolkit";
+import { postAdded } from "./postsSlice";
 
 const AddPostForm = () => {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
+
+    const dispatch = useDispatch();
+
+    const handleSubmit = () => {
+        if (title && content) {
+            // Utilize postAdded action of postsSlice reducer
+            dispatch(
+                postAdded({
+                    id: nanoid(),
+                    title,
+                    content,
+                })
+            );
+
+            // Clear Inputs
+            setTitle("");
+            setContent("");
+        }
+    };
 
     return (
         <div>
@@ -29,7 +51,9 @@ const AddPostForm = () => {
                     />
                 </div>
                 <div>
-                    <button type="button">Submit Post</button>
+                    <button onClick={handleSubmit} type="button">
+                        Submit Post
+                    </button>
                 </div>
             </form>
         </div>
