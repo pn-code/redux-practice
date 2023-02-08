@@ -28,7 +28,7 @@ const postsSlice = createSlice({
       // Provide Reducer
       reducer(state, action) {
         // Payload references form data we will use later.
-        posts.push(action.payload);
+        state.posts.push(action.payload);
       },
       // Provide prepare cb
       prepare(title, content, userId) {
@@ -75,6 +75,8 @@ const postsSlice = createSlice({
           };
           return post;
         });
+        // Add any fetch posts to the array...
+        state.posts = state.posts.concat(loadedPosts);
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = "failed";
@@ -85,6 +87,8 @@ const postsSlice = createSlice({
 
 // Selects all posts in the slice
 export const selectAllPosts = (state) => state.posts.posts;
+export const getPostsStatus = (state) => state.posts.status;
+export const getPostsError = (state) => state.posts.error;
 
 // Export reducer actions
 export const { postAdded, reactionAdded } = postsSlice.actions;
